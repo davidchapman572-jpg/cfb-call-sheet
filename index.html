@@ -1,28 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CFB Call Sheet</title>
-    <link rel="stylesheet" href="css/app.css" />
-  </head>
-  <body>
-  <h1>🏈 CFB Call Sheet</h1>
-  <header>
-    <select id="formationFilter">
-      <option value="all">All Formations</option>
-    </select>
-    <select id="typeFilter">
-      <option value="all">All Types</option>
-      <option value="run">Run</option>
-      <option value="pass">Pass</option>
-    </select>
-    <input type="text" id="searchBar" placeholder="Search plays or tags..." />
+<!-- TOP APP BAR -->
+  <header class="top-bar no-print">
+    <div class="title-group">
+      <span class="app-brand">CALL SHEET LAB</span>
+      <input 
+        type="text" 
+        id="sheetTitleInput" 
+        class="editable-sheet-title" 
+        placeholder="Enter Sheet Name..." 
+        aria-label="Call sheet name"
+      />
+      <span class="divider">·</span>
+      <input 
+        type="text" 
+        id="opponentInput" 
+        class="editable-opponent-info" 
+        placeholder="Opponent Front & Coverage (e.g. 3-3-5 · COVER 3)" 
+        aria-label="Opponent defense notes"
+      />
+    </div>
+    <div class="header-actions">
+      <button class="btn-yellow" id="saveSheetBtn">Save Week</button>
+      <button class="btn-yellow" id="adjustDefenseBtn">Adjust defense</button>
+    </div>
   </header>
-
-  <div id="playContainer" class="grid"></div>
-
-  <!-- Loads your app script -->
-  <script type="module" src="js/app.js"></script>
-</body>
-</html>
