@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CFB Call Sheet</title>
+  <style>
+    body { 
+      font-family: system-ui, sans-serif; 
+      padding: 20px; 
+      background: #0b090f; 
+      color: #f5f3ff; 
+    }
+    header { 
+      display: flex; 
+      gap: 15px; 
+      margin-bottom: 20px; 
+      align-items: center; 
+      flex-wrap: wrap;
+    }
+    select, input { 
+      padding: 8px 12px; 
+      border-radius: 6px; 
+      border: 1px solid #4c1d95; 
+      background: #171124; 
+      color: #f5f3ff; 
+    }
+    select:focus, input:focus { 
+      outline: none; 
+      border-color: #7c3aed; 
+    }
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+      gap: 16px; 
+    }
+    .card { 
+      background: #130e1d; 
+      border: 1px solid #2e1a47; 
+      border-radius: 8px; 
+      padding: 16px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5); 
+    }
+    .card h3 { 
+      margin: 0 0 8px 0; 
+      font-size: 1.1rem; 
+      color: #ffffff; 
+    }
+    .badge { 
+      display: inline-block; 
+      padding: 2px 8px; 
+      border-radius: 4px; 
+      font-size: 0.75rem; 
+      font-weight: bold; 
+      text-transform: uppercase; 
+      margin-right: 4px; 
+    }
+    .badge-run { 
+      background: #4c1d95; 
+      color: #ede9fe; 
+      border: 1px solid #6d28d9; 
+    }
+    .badge-pass { 
+      background: #7c3aed; 
+      color: #ffffff; 
+    }
+    .tags { 
+      margin-top: 10px; 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 4px; 
+    }
+    .tag { 
+      font-size: 0.7rem; 
+      background: #221538; 
+      border: 1px solid #3b1d66; 
+      padding: 2px 6px; 
+      border-radius: 4px; 
+      color: #c4b5fd; 
+    }
+  </style>
+</head>
+<body>
+  <h1>🏈 CFB Call Sheet</h1>
+  
+  <header>
+    <select id="formationFilter">
+      <option value="all">All Formations</option>
+    </select>
+    <select id="typeFilter">
+      <option value="all">All Types</option>
+      <option value="run">Run</option>
+      <option value="pass">Pass</option>
+    </select>
+    <input type="text" id="searchBar" placeholder="Search plays or tags..." />
+  </header>
+
+  <div id="playContainer" class="grid"></div>
+
+  <!-- Loads your app script -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
