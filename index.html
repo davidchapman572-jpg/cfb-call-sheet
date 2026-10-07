@@ -1,285 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Call Sheet Lab - Play Picker</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Call Sheet Lab</title>
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <!-- TOP BAR -->
+    <header class="top-bar">
+      <div class="title-group">
+        <span class="app-brand">CALL SHEET LAB</span>
+        <input type="text" id="sheetTitleInput" class="editable-sheet-title" placeholder="BLANK SHEET 1" />
+      </div>
+      <div class="top-actions">
+        <button class="btn-yellow-pill" id="clearBtn">Clear sheet</button>
+        <button class="btn-yellow-pill">Adjust defense</button>
+        <button class="btn-black-pill" onclick="window.print()">Full screen</button>
+      </div>
+    </header>
 
-    body {
-      background-color: #f1f5f9;
-      color: #0f172a;
-      padding: 24px;
-    }
+    <!-- ALERT BANNER -->
+    <div class="empty-banner" id="emptyNotice">
+      This sheet has no calls yet. Click any empty line to pick plays, use Suggest on a box, or open the editor.
+    </div>
 
-    .header-bar {
-      margin-bottom: 16px;
-    }
+    <!-- LEGEND ROW -->
+    <div class="legend-strip">
+      <button class="btn-tab active">FRONT</button>
+      <button class="btn-tab">BACK</button>
+      <button class="btn-tab" style="background:#fef08a;">Flip ↻</button>
+      
+      <span><strong>R</strong> RUN</span>
+      <span><strong>P</strong> PASS</span>
+      <span><strong>O</strong> RPO</span>
+      <span><strong>›</strong> SHIFT</span>
+      <span>★ OFF-SCRIPT</span>
+      <span>−/+ OWN/OPP YARD LINE</span>
+      <span><strong>F / B</strong> FIELD / BOUNDARY SIDE</span>
+      <span><span class="badge-flag">C</span> CONSTRAINT</span>
+      <span><span class="badge-flag badge-black">BB</span> BLITZ BEATER</span>
+      <span><span class="badge-flag badge-yellow">T</span> TRICK</span>
+    </div>
 
-    .header-bar h1 {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
+    <!-- 4-COLUMN SHEET CANVAS -->
+    <main class="sheet-canvas">
+      <!-- COLUMN 1: SCRIPT & 3RD SHORTS -->
+      <div class="sheet-col">
+        <section class="box">
+          <div class="box-header hdr-black">
+            <span>OPENING SCRIPT</span>
+            <button class="btn-suggest" data-box="script">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="script" data-slot="0"><span class="slot-down">1-10 -25</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="1"><span class="slot-down">2-6 -29</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="2"><span class="slot-down">1-10 -37</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="3"><span class="slot-down">1-10 -49</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="4"><span class="slot-down">2-5 +46</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="5"><span class="slot-down">3-2 +43</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="6"><span class="slot-down">1-10 +38</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="7"><span class="slot-down">1-10 +24</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="8"><span class="slot-down">2-4 +20</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="9"><span class="slot-down">1-10 +14</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="10"><span class="slot-down">2-5 +9</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script" data-slot="11"><span class="slot-down">1-G +4</span><span class="slot-text"></span></div>
+        </section>
 
-    .instruction-banner {
-      background-color: #fffbeb;
-      border: 1px dashed #f59e0b;
-      padding: 10px 14px;
-      font-size: 13px;
-      border-radius: 4px;
-      margin-bottom: 16px;
-      color: #92400e;
-    }
+        <section class="box">
+          <div class="box-header hdr-yellow">
+            <span>3RD & 1-2</span>
+            <button class="btn-suggest" data-box="third1_2">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="third1_2" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="third1_2" data-slot="1"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="third1_2" data-slot="2"><span class="slot-text"></span></div>
+        </section>
 
-    /* Grid Layout for Call Sheet */
-    .sheet-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      align-items: start;
-    }
+        <section class="box">
+          <div class="box-header hdr-yellow">
+            <span>3RD & 11+</span>
+            <button class="btn-suggest" data-box="third11">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="third11" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="third11" data-slot="1"><span class="slot-text"></span></div>
+        </section>
+      </div>
 
-    .section-card {
-      background: #ffffff;
-      border: 2px solid #000000;
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+      <!-- COLUMN 2: 11 PERSONNEL -->
+      <div class="sheet-col">
+        <section class="box">
+          <div class="box-header hdr-blue">
+            <span>11 PERSONNEL</span>
+          </div>
+          
+          <div class="sub-ribbon ribbon-run">
+            <span>RUN</span>
+            <button class="btn-suggest" data-box="run11">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="run11" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="run11" data-slot="1"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="run11" data-slot="2"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="run11" data-slot="3"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="run11" data-slot="4"><span class="slot-text"></span></div>
 
-    .section-header {
-      background: #000000;
-      color: #ffffff;
-      padding: 6px 10px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+          <div class="sub-ribbon ribbon-blue">
+            <span>QUICK & SCREENS</span>
+            <button class="btn-suggest" data-box="quick11">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="quick11" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="quick11" data-slot="1"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="quick11" data-slot="2"><span class="slot-text"></span></div>
 
-    .section-header.yellow {
-      background: #fef08a;
-      color: #854d0e;
-      border-bottom: 2px solid #000000;
-    }
+          <div class="sub-ribbon ribbon-blue">
+            <span>DROPBACK & PLAY-ACTION</span>
+            <button class="btn-suggest" data-box="drop11">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="drop11" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="drop11" data-slot="1"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="drop11" data-slot="2"><span class="slot-text"></span></div>
 
-    .lines-container {
-      display: flex;
-      flex-direction: column;
-    }
+          <div class="sub-ribbon">
+            <span>RPO</span>
+            <button class="btn-suggest" data-box="rpo11">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="rpo11" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="rpo11" data-slot="1"><span class="slot-text"></span></div>
+        </section>
 
-    /* Clickable Sheet Line */
-    .call-line {
-      display: flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 4px 10px;
-      border-bottom: 1px solid #e2e8f0;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 600;
-      transition: background-color 0.15s ease;
-      position: relative;
-    }
+        <section class="box">
+          <div class="box-header hdr-yellow">
+            <span>3RD & 3-6</span>
+            <button class="btn-suggest" data-box="third3_6">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="third3_6" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="third3_6" data-slot="1"><span class="slot-text"></span></div>
+        </section>
+      </div>
 
-    .call-line:last-child {
-      border-bottom: none;
-    }
+      <!-- COLUMN 3: 12 PERSONNEL -->
+      <div class="sheet-col">
+        <section class="box">
+          <div class="box-header hdr-green">
+            <span>12 PERSONNEL</span>
+          </div>
 
-    .call-line:hover {
-      background-color: #f8fafc;
-    }
+          <div class="sub-ribbon ribbon-run">
+            <span>RUN</span>
+            <button class="btn-suggest" data-box="run12">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="run12" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="run12" data-slot="1"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="run12" data-slot="2"><span class="slot-text"></span></div>
 
-    .call-line.empty {
-      color: #94a3b8;
-      font-style: italic;
-      font-weight: 400;
-    }
+          <div class="sub-ribbon ribbon-blue">
+            <span>QUICK & SCREENS</span>
+            <button class="btn-suggest" data-box="quick12">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="quick12" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="quick12" data-slot="1"><span class="slot-text"></span></div>
 
-    .call-line .line-tag {
-      color: #64748b;
-      margin-right: 8px;
-      font-weight: 700;
-      font-style: normal;
-    }
+          <div class="sub-ribbon ribbon-blue">
+            <span>DROPBACK & PLAY-ACTION</span>
+            <button class="btn-suggest" data-box="drop12">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="drop12" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="drop12" data-slot="1"><span class="slot-text"></span></div>
 
-    .call-line .play-text {
-      color: #0f172a;
-      font-weight: 700;
-    }
+          <div class="sub-ribbon">
+            <span>RPO</span>
+            <button class="btn-suggest" data-box="rpo12">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="rpo12" data-slot="0"><span class="slot-text"></span></div>
+        </section>
 
-    /* Modal Overlay */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background-color: rgba(0, 0, 0, 0.55);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 16px;
-    }
+        <section class="box">
+          <div class="box-header hdr-yellow">
+            <span>3RD & 7-10</span>
+            <button class="btn-suggest" data-box="third7_10">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="third7_10" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="third7_10" data-slot="1"><span class="slot-text"></span></div>
+        </section>
+      </div>
 
-    .modal-backdrop.hidden {
-      display: none;
-    }
+      <!-- COLUMN 4: 2ND HALF & HEAVY -->
+      <div class="sheet-col">
+        <section class="box">
+          <div class="box-header hdr-black">
+            <span>OPENING 2ND HALF</span>
+            <button class="btn-suggest" data-box="script2">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="script2" data-slot="0"><span class="slot-down">1-10 -25</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script2" data-slot="1"><span class="slot-down">2-6 -29</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script2" data-slot="2"><span class="slot-down">1-10 -37</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script2" data-slot="3"><span class="slot-down">1-10 -49</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script2" data-slot="4"><span class="slot-down">2-5 +46</span><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="script2" data-slot="5"><span class="slot-down">1-10 +38</span><span class="slot-text"></span></div>
+        </section>
 
-    .modal-card {
-      background: #ffffff;
-      width: 100%;
-      max-width: 680px;
-      max-height: 85vh;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
-      overflow: hidden;
-    }
+        <section class="box">
+          <div class="box-header hdr-purple">
+            <span>13 / HEAVY</span>
+          </div>
 
-    .modal-header {
-      padding: 14px 18px;
-      background: #0f172a;
-      color: #ffffff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+          <div class="sub-ribbon ribbon-run">
+            <span>RUN</span>
+            <button class="btn-suggest" data-box="runHeavy">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="runHeavy" data-slot="0"><span class="slot-text"></span></div>
+          <div class="slot-row" data-bucket="runHeavy" data-slot="1"><span class="slot-text"></span></div>
 
-    .modal-header h2 {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
+          <div class="sub-ribbon ribbon-blue">
+            <span>QUICK & SCREENS</span>
+            <button class="btn-suggest" data-box="quickHeavy">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="quickHeavy" data-slot="0"><span class="slot-text"></span></div>
 
-    .close-btn {
-      background: none;
-      border: none;
-      color: #ffffff;
-      font-size: 24px;
-      line-height: 1;
-      cursor: pointer;
-    }
+          <div class="sub-ribbon ribbon-blue">
+            <span>DROPBACK & PLAY-ACTION</span>
+            <button class="btn-suggest" data-box="dropHeavy">Suggest</button>
+          </div>
+          <div class="slot-row" data-bucket="dropHeavy" data-slot="0"><span class="slot-text"></span></div>
+        </section>
+      </div>
+    </main>
 
-    .modal-body {
-      padding: 16px 18px;
-      overflow-y: auto;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    #search-box {
-      width: 100%;
-      padding: 9px 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    #search-box:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
-    }
-
-    /* Playbook Groups */
-    .formation-card {
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      padding: 12px;
-      background-color: #f8fafc;
-    }
-
-    .formation-title {
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #1e293b;
-      margin-bottom: 8px;
-    }
-
-    .play-chips-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .play-chip {
-      background-color: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 4px;
-      padding: 6px 10px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #334155;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .play-chip:hover {
-      background-color: #0f172a;
-      border-color: #0f172a;
-      color: #ffffff;
-    }
-
-    .modal-footer {
-      padding: 10px 18px;
-      background: #f1f5f9;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-
-    .btn-clear-slot {
-      background: #ef4444;
-      color: #ffffff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="header-bar">
-    <h1>CALL SHEET LAB</h1>
-  </div>
-
-  <div class="instruction-banner">
-    Click any empty line below to open formations and plays.
-  </div>
-
-  <!-- Sheet Layout Example -->
-  <div class="sheet-grid">
-    <!-- Opening Script -->
-    <div class="section-card">
-      <div class="section-header">OPENING SCRIPT</div>
-      <div class="lines-container">
-        <div class="call-line empty" data-tag="1-10 -25"><span class="line-tag">1-10 -25</span> Click to pick play</div>
-        <div class="call-line empty" data-tag="2-6 -29"><span class="line-tag">2-6 -29</span> Click to pick play</div>
-        <div class="call-line empty" data-tag="1-10 -37"><span class="line-tag">1-10 -37</span> Click to pick play</div>
-        <div class="call-line empty" data-tag="1-10 -49"><span class="line-tag">1-10 -49</span> Click to pick play</div>
+    <!-- SEARCHABLE PLAY PICKER MODAL -->
+    <div id="playPickerModal" class="modal-overlay" style="display:none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span id="modalTitle">Select Play</span>
+          <button id="closeModalBtn" style="background:transparent; border:none; color:#fff; font-size:16px; cursor:pointer;">&times;</button>
+        </div>
+        <div class="modal-search">
+          <input type="text" id="modalSearchInput" placeholder="Search playbook..." />
+        </div>
+        <div class="modal-play-list" id="modalPlayList"></div>
       </div>
     </div>
 
-    <!-- 11 Personnel -->
-    <div class="section-card">
-      <div class="section-header">11 PERSONNEL — RUN</div>
-      <div class="lines-container">
-        <div class="
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
