@@ -1,181 +1,365 @@
-/* Sideline Call Sheet Styling - CallSheetLab Spec */
+/* ==========================================================================
+   CALL SHEET LAB - COMPLETE APPLICATION & PRINT STYLESHEET
+   ========================================================================== */
+
 :root {
-  --bg-page: #f1f3f5;
-  --card-bg: #ffffff;
-  --border-color: #2b2d42;
-  --header-bg: #1e2229;
-  --header-text: #ffffff;
-  --badge-11: #e0f2fe;
-  --badge-11-txt: #0369a1;
-  --badge-12: #fef3c7;
-  --badge-12-txt: #b45309;
-  --badge-heavy: #fee2e2;
-  --badge-heavy-txt: #b91c1c;
-  --down-tag: #64748b;
-  --shift-arrow: #d97706;
+  --bg-page: #e5e7eb;
+  --bg-sheet: #ffffff;
+  --border-dark: #000000;
+  --border-subtle: #edf2f7;
+  --text-main: #000000;
+  
+  /* Section Header Colors */
+  --hdr-black: #000000;
+  --hdr-yellow: #fef08a;
+  --hdr-blue: #dbeafe;
+  --hdr-green: #dcfce7;
+  --hdr-purple: #f3e8ff;
+  
+  /* Subcategory Ribbon Colors */
+  --sub-run: #f1f5f9;
+  --sub-quick: #e2e8f0;
+  --sub-dropback: #bfdbfe;
+  --sub-rpo: #dcfce7;
+
+  /* Tag Badges */
+  --badge-11: #ffffff;
+  --shift-color: #d97706;
+  --down-color: #475569;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg-page);
-  margin: 0;
-  padding: 16px;
-  color: #111;
-  font-size: 11px;
-  line-height: 1.25;
-}
-
-/* Sheet Summary Top Bar */
-.sheet-summary {
-  display: flex;
-  gap: 20px;
-  background: var(--card-bg);
-  border: 1.5px solid var(--border-color);
-  border-radius: 4px;
-  padding: 8px 14px;
-  margin-bottom: 12px;
-  max-width: 1080px;
+* {
   box-sizing: border-box;
 }
 
-.summary-group {
+body {
+  margin: 0;
+  padding: 8px;
+  background-color: var(--bg-page);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text-main);
+  font-size: 8.5px;
+  line-height: 1.1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   TOP BAR & EDITABLE WEEK CONTROLS
+   ========================================================================== */
+
+.top-bar {
+  background: #000000;
+  color: #ffffff;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.title-group {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-grow: 1;
 }
 
-.summary-title {
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 10px;
-  color: #475569;
-}
-
-.summary-bar {
-  display: flex;
-  height: 12px;
-  width: 140px;
-  border-radius: 3px;
-  overflow: hidden;
-  background: #e2e8f0;
-}
-
-.bar-segment { height: 100%; }
-.seg-run { background-color: #3b82f6; }
-.seg-pass { background-color: #10b981; }
-.seg-rpo { background-color: #f59e0b; }
-
-/* 3-Column Landscape Grid */
-.callsheet-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  max-width: 1080px;
-}
-
-/* Individual Situation Box */
-.situation-box {
-  background: var(--card-bg);
-  border: 1.5px solid var(--border-color);
-  border-radius: 3px;
-  overflow: hidden;
-  break-inside: avoid;
-}
-
-.situation-header {
-  background: var(--header-bg);
-  color: var(--header-text);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 9.5px;
-  letter-spacing: 0.6px;
-  padding: 3px 6px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.situation-count {
-  opacity: 0.65;
-  font-weight: 400;
-}
-
-/* Play Call Rows */
-.play-item {
-  display: flex;
-  align-items: baseline;
-  padding: 2.5px 5px;
-  border-bottom: 0.5px solid #edf2f7;
-  gap: 4px;
+.app-brand {
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  color: #ffffff;
   white-space: nowrap;
+}
+
+.divider {
+  color: #94a3b8;
+  font-weight: bold;
+}
+
+.editable-sheet-title,
+.editable-opponent-info {
+  background: transparent;
+  border: 1px dashed transparent;
+  color: #fef08a;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.editable-sheet-title {
+  width: 170px;
+}
+
+.editable-opponent-info {
+  width: 320px;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.editable-sheet-title:hover,
+.editable-opponent-info:hover {
+  border-color: #475569;
+}
+
+.editable-sheet-title:focus,
+.editable-opponent-info:focus {
+  background: #1e293b;
+  border-color: #fef08a;
+}
+
+.editable-sheet-title::placeholder,
+.editable-opponent-info::placeholder {
+  color: #64748b;
+  font-weight: normal;
+}
+
+.header-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-yellow {
+  background: #fef08a;
+  color: #000000;
+  border: 1px solid #000000;
+  padding: 2px 8px;
+  font-weight: 700;
+  font-size: 9px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-yellow:hover {
+  background: #fde047;
+}
+
+/* ==========================================================================
+   LEGEND & VIEW CONTROLS
+   ========================================================================== */
+
+.legend-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 8px;
+  font-weight: 700;
+  flex-wrap: wrap;
+}
+
+.btn-tab {
+  background: #ffffff;
+  border: 1px solid #000000;
+  padding: 2px 6px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.btn-tab.active {
+  background: #000000;
+  color: #ffffff;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.badge-flag {
+  display: inline-block;
+  border: 1px solid #000000;
+  padding: 0 2px;
+  font-size: 7px;
+  font-weight: 800;
+  border-radius: 1px;
+  line-height: 1.1;
+  background: #ffffff;
+  color: #000000;
+}
+
+.badge-black {
+  background: #000000;
+  color: #ffffff;
+}
+
+.badge-yellow {
+  background: #fef08a;
+  color: #000000;
+}
+
+/* ==========================================================================
+   CALL SHEET 4-COLUMN GRID
+   ========================================================================== */
+
+.sheet-canvas {
+  display: grid;
+  grid-template-columns: 24% 26% 26% 24%;
+  gap: 4px;
+  background: var(--bg-sheet);
+  border: 1px solid var(--border-dark);
+  padding: 4px;
+}
+
+.sheet-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* SITUATION BOXES */
+.box {
+  border: 1px solid var(--border-dark);
+  background: #ffffff;
+}
+
+.box-header {
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 9px;
+  padding: 2px 4px;
+  letter-spacing: 0.3px;
+}
+
+.hdr-black { background: var(--hdr-black); color: #ffffff; }
+.hdr-yellow { background: var(--hdr-yellow); color: #000000; }
+.hdr-blue { background: var(--hdr-blue); color: #000000; }
+.hdr-green { background: var(--hdr-green); color: #000000; }
+.hdr-purple { background: var(--hdr-purple); color: #000000; }
+
+/* SUB-RIBBONS */
+.sub-ribbon {
+  font-size: 7.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 1px 3px;
+  border-bottom: 0.5px solid var(--border-dark);
+  border-top: 0.5px solid var(--border-dark);
+}
+
+.ribbon-run { background: var(--sub-run); }
+.ribbon-quick { background: var(--sub-quick); }
+.ribbon-dropback { background: var(--sub-dropback); }
+.ribbon-rpo { background: var(--sub-rpo); }
+
+/* ==========================================================================
+   PLAY ROW STRUCTURE
+   ========================================================================== */
+
+.play-row {
+  display: flex;
+  align-items: center;
+  padding: 1.5px 2px;
+  border-bottom: 0.5px solid var(--border-subtle);
+  white-space: nowrap;
+  overflow: hidden;
+  gap: 3px;
+}
+
+.play-row:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.row-num {
+  font-size: 7.5px;
+  color: #4b5563;
+  width: 14px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.row-down {
+  font-style: italic;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--down-color);
+  width: 44px;
+  flex-shrink: 0;
+}
+
+.row-pers {
+  border: 1px solid var(--border-dark);
+  font-size: 7.5px;
+  font-weight: 800;
+  padding: 0 2px;
+  border-radius: 1px;
+  flex-shrink: 0;
+  background: var(--badge-11);
+}
+
+.row-type {
+  font-weight: 900;
+  font-size: 8px;
+  width: 9px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.row-content {
+  flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.play-item:nth-child(even) {
-  background-color: #f8fafc;
+.formation-part {
+  font-weight: 500;
+  color: #1f2937;
 }
 
-/* Situation & Down Markers */
-.down-dist {
-  font-style: italic;
-  color: var(--down-tag);
-  font-size: 9px;
-  min-width: 44px;
-  flex-shrink: 0;
-}
-
-/* Personnel Badges */
-.pers-badge {
-  font-size: 8.5px;
-  font-weight: 700;
-  padding: 0.5px 3.5px;
-  border-radius: 2px;
-  border: 1px solid rgba(0,0,0,0.1);
-  flex-shrink: 0;
-}
-
-.pers-11 { background: var(--badge-11); color: var(--badge-11-txt); }
-.pers-12 { background: var(--badge-12); color: var(--badge-12-txt); }
-.pers-21, .pers-23 { background: var(--badge-heavy); color: var(--badge-heavy-txt); }
-
-/* Set & Play Typography */
-.formation-name {
-  color: #334155;
-  font-size: 9.5px;
-  margin-right: 2px;
-}
-
-.shift-arrow {
-  color: var(--shift-arrow);
+.shift-char {
+  color: var(--shift-color);
   font-weight: 900;
   margin: 0 1px;
 }
 
-.play-title {
-  font-weight: 700;
-  color: #0f172a;
-  font-size: 10px;
+.play-name-part {
+  font-weight: 900;
+  color: #000000;
 }
 
-/* Print/Cardstock Settings */
+.flags {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   PRINT / PDF EXPORT (8.5" x 11" LANDSCAPE CARDSTOCK)
+   ========================================================================== */
+
 @media print {
   @page {
     size: letter landscape;
-    margin: 0.2in;
+    margin: 0.15in;
   }
+
   body {
     background: transparent;
     padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
+
   .no-print {
     display: none !important;
   }
-  .callsheet-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 4px;
+
+  .sheet-canvas {
+    border: 1px solid #000000;
+    gap: 3px;
+    padding: 0;
     max-width: 100%;
   }
-  .situation-box {
-    border-width: 1px;
+
+  .box {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }
