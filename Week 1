@@ -1,0 +1,11 @@
+call-sheet-lab/
+├── index.html              # Main single-page application shell
+├── css/
+│   ├── app.css             # UI styling (dark/light theme, interactive drawer)
+│   └── print.css           # Strict landscape 8.5" x 11" print styles
+├── js/
+│   ├── plays.js            # Hardcoded master playbook database
+│   ├── generator.js        # Algorithmic bucket population & defense weighting
+│   ├── storage.js          # localStorage manager (save/load/export CSV)
+│   └── app.js              # DOM rendering, tab switching, and click-to-swap
+└── README.md
