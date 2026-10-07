@@ -1,29 +1,17 @@
-/* ==========================================================================
-   CALL SHEET LAB - COMPLETE APPLICATION & PRINT STYLESHEET
-   ========================================================================== */
-
 :root {
   --bg-page: #e5e7eb;
   --bg-sheet: #ffffff;
   --border-dark: #000000;
   --border-subtle: #edf2f7;
   --text-main: #000000;
-  
-  /* Section Header Colors */
+
+  /* Header Section Colors */
   --hdr-black: #000000;
   --hdr-yellow: #fef08a;
   --hdr-blue: #dbeafe;
   --hdr-green: #dcfce7;
   --hdr-purple: #f3e8ff;
-  
-  /* Subcategory Ribbon Colors */
-  --sub-run: #f1f5f9;
-  --sub-quick: #e2e8f0;
-  --sub-dropback: #bfdbfe;
-  --sub-rpo: #dcfce7;
 
-  /* Tag Badges */
-  --badge-11: #ffffff;
   --shift-color: #d97706;
   --down-color: #475569;
 }
@@ -43,10 +31,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ==========================================================================
-   TOP BAR & EDITABLE WEEK CONTROLS
-   ========================================================================== */
-
+/* TOP APP BAR */
 .top-bar {
   background: #000000;
   color: #ffffff;
@@ -93,11 +78,11 @@ body {
 }
 
 .editable-sheet-title {
-  width: 170px;
+  width: 220px;
 }
 
 .editable-opponent-info {
-  width: 320px;
+  width: 340px;
   color: #e2e8f0;
   font-weight: 500;
 }
@@ -111,12 +96,6 @@ body {
 .editable-opponent-info:focus {
   background: #1e293b;
   border-color: #fef08a;
-}
-
-.editable-sheet-title::placeholder,
-.editable-opponent-info::placeholder {
-  color: #64748b;
-  font-weight: normal;
 }
 
 .header-actions {
@@ -139,10 +118,7 @@ body {
   background: #fde047;
 }
 
-/* ==========================================================================
-   LEGEND & VIEW CONTROLS
-   ========================================================================== */
-
+/* LEGEND STRIP */
 .legend-strip {
   display: flex;
   align-items: center;
@@ -194,10 +170,7 @@ body {
   color: #000000;
 }
 
-/* ==========================================================================
-   CALL SHEET 4-COLUMN GRID
-   ========================================================================== */
-
+/* 4-COLUMN SHEET CANVAS */
 .sheet-canvas {
   display: grid;
   grid-template-columns: 24% 26% 26% 24%;
@@ -205,6 +178,7 @@ body {
   background: var(--bg-sheet);
   border: 1px solid var(--border-dark);
   padding: 4px;
+  min-height: calc(100vh - 80px);
 }
 
 .sheet-col {
@@ -213,7 +187,6 @@ body {
   gap: 4px;
 }
 
-/* SITUATION BOXES */
 .box {
   border: 1px solid var(--border-dark);
   background: #ffffff;
@@ -222,9 +195,12 @@ body {
 .box-header {
   font-weight: 900;
   text-transform: uppercase;
-  font-size: 9px;
+  font-size: 8.5px;
   padding: 2px 4px;
   letter-spacing: 0.3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hdr-black { background: var(--hdr-black); color: #ffffff; }
@@ -233,25 +209,34 @@ body {
 .hdr-green { background: var(--hdr-green); color: #000000; }
 .hdr-purple { background: var(--hdr-purple); color: #000000; }
 
-/* SUB-RIBBONS */
-.sub-ribbon {
-  font-size: 7.5px;
+.add-play-btn {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  font-size: 7px;
   font-weight: 800;
-  text-transform: uppercase;
   padding: 1px 3px;
-  border-bottom: 0.5px solid var(--border-dark);
-  border-top: 0.5px solid var(--border-dark);
+  border-radius: 2px;
+  cursor: pointer;
 }
 
-.ribbon-run { background: var(--sub-run); }
-.ribbon-quick { background: var(--sub-quick); }
-.ribbon-dropback { background: var(--sub-dropback); }
-.ribbon-rpo { background: var(--sub-rpo); }
+.add-play-btn:hover {
+  background: #fef08a;
+}
 
-/* ==========================================================================
-   PLAY ROW STRUCTURE
-   ========================================================================== */
+.box-content {
+  min-height: 28px;
+}
 
+.empty-notice {
+  padding: 6px;
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  font-size: 7.5px;
+}
+
+/* PLAY ROW */
 .play-row {
   display: flex;
   align-items: center;
@@ -268,18 +253,9 @@ body {
 
 .row-num {
   font-size: 7.5px;
-  color: #4b5563;
-  width: 14px;
+  color: #64748b;
+  width: 12px;
   text-align: right;
-  flex-shrink: 0;
-}
-
-.row-down {
-  font-style: italic;
-  font-size: 8px;
-  font-weight: 700;
-  color: var(--down-color);
-  width: 44px;
   flex-shrink: 0;
 }
 
@@ -290,7 +266,7 @@ body {
   padding: 0 2px;
   border-radius: 1px;
   flex-shrink: 0;
-  background: var(--badge-11);
+  background: #ffffff;
 }
 
 .row-type {
@@ -309,13 +285,7 @@ body {
 
 .formation-part {
   font-weight: 500;
-  color: #1f2937;
-}
-
-.shift-char {
-  color: var(--shift-color);
-  font-weight: 900;
-  margin: 0 1px;
+  color: #334155;
 }
 
 .play-name-part {
@@ -330,36 +300,131 @@ body {
   flex-shrink: 0;
 }
 
-/* ==========================================================================
-   PRINT / PDF EXPORT (8.5" x 11" LANDSCAPE CARDSTOCK)
-   ========================================================================== */
+.delete-row-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-weight: bold;
+  font-size: 10px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+}
 
+/* MODAL OVERLAY & PICKER */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  width: 92%;
+  max-width: 620px;
+  height: 80vh;
+  border-radius: 4px;
+  border: 2px solid #000000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #000000;
+  color: #ffffff;
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-search-row {
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  background: #f1f5f9;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.modal-search-row input {
+  flex-grow: 1;
+  padding: 5px 8px;
+  font-size: 10px;
+  border: 1px solid #94a3b8;
+  border-radius: 3px;
+  outline: none;
+}
+
+.modal-search-row select {
+  font-size: 10px;
+  border: 1px solid #94a3b8;
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.modal-play-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.picker-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+}
+
+.picker-item:hover {
+  background-color: #fef9c3;
+}
+
+.picker-item-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9.5px;
+}
+
+/* PRINT CARDSTOCK RULES */
 @media print {
   @page {
     size: letter landscape;
     margin: 0.15in;
   }
-
   body {
     background: transparent;
     padding: 0;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-
   .no-print {
     display: none !important;
   }
-
   .sheet-canvas {
     border: 1px solid #000000;
     gap: 3px;
     padding: 0;
-    max-width: 100%;
-  }
-
-  .box {
-    break-inside: avoid;
-    page-break-inside: avoid;
   }
 }
