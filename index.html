@@ -1,25 +1,447 @@
-<!-- TOP APP BAR -->
-  <header class="top-bar no-print">
-    <div class="title-group">
-      <span class="app-brand">CALL SHEET LAB</span>
-      <input 
-        type="text" 
-        id="sheetTitleInput" 
-        class="editable-sheet-title" 
-        placeholder="Enter Sheet Name..." 
-        aria-label="Call sheet name"
-      />
-      <span class="divider">·</span>
-      <input 
-        type="text" 
-        id="opponentInput" 
-        class="editable-opponent-info" 
-        placeholder="Opponent Front & Coverage (e.g. 3-3-5 · COVER 3)" 
-        aria-label="Opponent defense notes"
-      />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Call Sheet Lab</title>
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <!-- TOP APP BAR -->
+    <header class="top-bar no-print">
+      <div class="title-group">
+        <span class="app-brand">CALL SHEET LAB</span>
+        <input
+          type="text"
+          id="sheetTitleInput"
+          class="editable-sheet-title"
+          placeholder="Enter Sheet Name..."
+          aria-label="Call sheet name"
+        />
+        <span class="divider">·</span>
+        <input
+          type="text"
+          id="opponentInput"
+          class="editable-opponent-info"
+          placeholder="Opponent Front & Coverage (e.g. 3-3-5 · COVER 3)"
+          aria-label="Opponent defense notes"
+        />
+      </div>
+      <div class="header-actions">
+        <button class="btn-yellow" id="saveSheetBtn">Save Week</button>
+        <button class="btn-yellow" id="adjustDefenseBtn">Adjust defense</button>
+      </div>
+    </header>
+
+    <!-- LEGEND & VIEW BAR -->
+    <div class="legend-strip no-print">
+      <button class="btn-tab active" id="btnFront">FRONT</button>
+      <button class="btn-tab" id="btnBack">BACK</button>
+      <button class="btn-tab btn-yellow" id="btnFlip">Flip ↻</button>
+
+      <span class="legend-item"><strong>R</strong> RUN</span>
+      <span class="legend-item"><strong>P</strong> PASS</span>
+      <span class="legend-item"><strong>O</strong> RPO</span>
+      <span class="legend-item"><strong>›</strong> SHIFT</span>
+      <span class="legend-item">★ OFF-SCRIPT</span>
+      <span class="legend-item">-+ OWN/OPP YARD LINE</span>
+      <span class="legend-item">F/B FIELD/BOUNDARY SIDE</span>
+      <span class="legend-item"><span class="badge-flag">C</span> CONSTRAINT</span>
+      <span class="legend-item"><span class="badge-flag badge-black">BB</span> BLITZ BEATER</span>
+      <span class="legend-item"><span class="badge-flag badge-yellow">T</span> TRICK</span>
     </div>
-    <div class="header-actions">
-      <button class="btn-yellow" id="saveSheetBtn">Save Week</button>
-      <button class="btn-yellow" id="adjustDefenseBtn">Adjust defense</button>
-    </div>
-  </header>
+
+    <!-- 4-COLUMN SIDELINE CANVAS -->
+    <main class="sheet-canvas" id="callSheetContainer">
+      <!-- COLUMN 1: OPENING SCRIPT & SHORT/MEDIUM 3RDS -->
+      <div class="sheet-col">
+        <!-- Opening Script -->
+        <section class="box">
+          <div class="box-header hdr-black">OPENING SCRIPT</div>
+          <div class="play-row">
+            <span class="row-down">1-10 -25</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">GUN DOUBLES OFFSET</span>
+              <span class="play-name-part">BUCK SWEEP</span>
+            </span>
+          </div>
+          <div class="play-row">
+            <span class="row-down">2-6 -29</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN BUNCH TRIO OPEN</span>
+              <span class="play-name-part">DRIVE</span>
+            </span>
+            <span class="flags"><span class="badge-flag badge-black">BB</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-down">1-10 -37</span>
+            <span class="row-pers">12</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">PISTOL DOUBLES Y OFF</span>
+              <span class="play-name-part">COUNTER READ OPTION</span>
+            </span>
+            <span class="flags"><span class="badge-flag">C</span><span class="badge-flag">F</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-down">2-3 -44</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">O</span>
+            <span class="row-content">
+              <span class="formation-part">GUN Y OFF TRIPS</span>
+              <span class="play-name-part">COUNTER GT ALERT SMOKE</span>
+            </span>
+            <span class="flags"><span class="badge-flag">F</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-down">1-10 +48</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN DOUBLES OFFSET WK</span>
+              <span class="play-name-part">FOUR VERTICALS OPTION</span>
+            </span>
+            <span class="flags"><span class="badge-flag badge-black">BB</span></span>
+          </div>
+        </section>
+
+        <!-- 3rd & 1-2 -->
+        <section class="box">
+          <div class="box-header hdr-yellow">3RD & 1-2</div>
+          <div class="sub-ribbon ribbon-run">RUN · 11P / 21P</div>
+          <div class="play-row">
+            <span class="row-num">13</span>
+            <span class="row-pers">21</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">STRONG I TWINS OVER</span>
+              <span class="play-name-part">HB BLAST</span>
+            </span>
+            <span class="flags"><span class="badge-flag">B</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">14</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">GUN DOUBLES OFFSET WK</span>
+              <span class="play-name-part">JET QB COUNTER</span>
+            </span>
+            <span class="flags"><span class="badge-flag badge-black">BB</span></span>
+          </div>
+        </section>
+
+        <!-- 3rd & 7-10 -->
+        <section class="box">
+          <div class="box-header hdr-yellow">3RD & 7-10</div>
+          <div class="sub-ribbon ribbon-dropback">PASS · 11P</div>
+          <div class="play-row">
+            <span class="row-num">20</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN OPEN FLEX</span>
+              <span class="play-name-part">DAGGER</span>
+            </span>
+            <span class="flags"><span class="badge-flag">C</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">21</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN OPEN FLEX</span>
+              <span class="play-name-part">DEEP OUTS</span>
+            </span>
+            <span class="flags"><span class="badge-flag">F</span></span>
+          </div>
+        </section>
+      </div>
+
+      <!-- COLUMN 2: 11 PERSONNEL BASE MENU -->
+      <div class="sheet-col">
+        <section class="box">
+          <div class="box-header hdr-blue">11 PERSONNEL</div>
+          
+          <div class="sub-ribbon ribbon-run">RUN</div>
+          <div class="play-row">
+            <span class="row-num">30</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">GUN DOUBLES OFFSET</span>
+              <span class="play-name-part">COUNTER TREY</span>
+            </span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">31</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">GUN OPEN FLEX WK</span>
+              <span class="play-name-part">COUNTER Y</span>
+            </span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">32</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">GUN SLOT RIGHT</span>
+              <span class="play-name-part">HB ISO</span>
+            </span>
+            <span class="flags"><span class="badge-flag">B</span></span>
+          </div>
+
+          <div class="sub-ribbon ribbon-quick">QUICK & SCREENS</div>
+          <div class="play-row">
+            <span class="row-num">40</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN SLOT LEFT</span>
+              <span class="play-name-part">CURL FLATS</span>
+            </span>
+            <span class="flags"><span class="badge-flag badge-black">BB</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">41</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN SLOT LEFT STACK</span>
+              <span class="play-name-part">JET TOUCH PASS</span>
+            </span>
+            <span class="flags"><span class="badge-flag">F</span></span>
+          </div>
+
+          <div class="sub-ribbon ribbon-dropback">DROPBACK & PLAY-ACTION</div>
+          <div class="play-row">
+            <span class="row-num">48</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN DOUBLES OFFSET</span>
+              <span class="play-name-part">FADE SMASH</span>
+            </span>
+            <span class="flags"><span class="badge-flag">F</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">49</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN BUNCH TRIO OPEN</span>
+              <span class="play-name-part">FLOOD SWAP</span>
+            </span>
+            <span class="flags"><span class="badge-flag">C</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">50</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN SLOT RIGHT WK OVER</span>
+              <span class="play-name-part">PA SLIDE</span>
+            </span>
+            <span class="flags"><span class="badge-flag">C</span></span>
+          </div>
+
+          <div class="sub-ribbon ribbon-rpo">RPO</div>
+          <div class="play-row">
+            <span class="row-num">56</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">O</span>
+            <span class="row-content">
+              <span class="formation-part">GUN Y OFF TRIPS</span>
+              <span class="play-name-part">COUNTER GT ALERT SMOKE</span>
+            </span>
+            <span class="flags"><span class="badge-flag">F</span></span>
+          </div>
+        </section>
+      </div>
+
+      <!-- COLUMN 3: 12 PERSONNEL & 3RD & 3-6 -->
+      <div class="sheet-col">
+        <section class="box">
+          <div class="box-header hdr-green">12 PERSONNEL</div>
+          
+          <div class="sub-ribbon ribbon-run">RUN & OPTION</div>
+          <div class="play-row">
+            <span class="row-num">62</span>
+            <span class="row-pers">12</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">PISTOL OPEN FLEX CLOSE</span>
+              <span class="play-name-part">INSIDE ZONE WK</span>
+            </span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">63</span>
+            <span class="row-pers">12</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">PISTOL OPEN FLEX CLOSE</span>
+              <span class="play-name-part">MOTION COUNTER Y</span>
+            </span>
+            <span class="flags"><span class="badge-flag">C</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">64</span>
+            <span class="row-pers">12</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">PISTOL OPEN FLEX</span>
+              <span class="play-name-part">COUNTER F</span>
+            </span>
+          </div>
+
+          <div class="sub-ribbon ribbon-dropback">DROPBACK & SCREENS</div>
+          <div class="play-row">
+            <span class="row-num">70</span>
+            <span class="row-pers">12</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">PISTOL OPEN FLEX</span>
+              <span class="play-name-part">FL SCREEN</span>
+            </span>
+            <span class="flags"><span class="badge-flag badge-black">BB</span></span>
+          </div>
+        </section>
+
+        <!-- 3rd & 3-6 -->
+        <section class="box">
+          <div class="box-header hdr-yellow">3RD & 3-6</div>
+          <div class="sub-ribbon ribbon-quick">PASS · 11P</div>
+          <div class="play-row">
+            <span class="row-num">81</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN BUNCH TRIO OPEN</span>
+              <span class="play-name-part">DRIVE</span>
+            </span>
+            <span class="flags"><span class="badge-flag badge-black">BB</span><span class="badge-flag">F</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">82</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN DOUBLES OFFSET</span>
+              <span class="play-name-part">FADE SMASH</span>
+            </span>
+            <span class="flags"><span class="badge-flag">F</span></span>
+          </div>
+        </section>
+      </div>
+
+      <!-- COLUMN 4: 2ND HALF, 13/HEAVY, 3RD & 11+ -->
+      <div class="sheet-col">
+        <!-- 2nd Half Opener -->
+        <section class="box">
+          <div class="box-header hdr-black">OPENING 2ND HALF</div>
+          <div class="play-row">
+            <span class="row-down">1-10 -25</span>
+            <span class="row-pers">12</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">PISTOL DOUBLES Y OFF</span>
+              <span class="play-name-part">COUNTER READ OPTION</span>
+            </span>
+            <span class="flags"><span class="badge-flag">C</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-down">2-5 -30</span>
+            <span class="row-pers">11</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN SLOT LEFT</span>
+              <span class="play-name-part">FAKE JET HB SEAM</span>
+            </span>
+            <span class="flags"><span class="badge-flag badge-yellow">T</span></span>
+          </div>
+        </section>
+
+        <!-- 13 / Heavy -->
+        <section class="box">
+          <div class="box-header hdr-purple">13 / HEAVY</div>
+          <div class="sub-ribbon ribbon-run">RUN · HEAVY</div>
+          <div class="play-row">
+            <span class="row-num">97</span>
+            <span class="row-pers">21</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">STRONG I TWINS OVER</span>
+              <span class="play-name-part">HB BLAST</span>
+            </span>
+            <span class="flags"><span class="badge-flag">B</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">98</span>
+            <span class="row-pers">23</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">GOAL LINE NORMAL</span>
+              <span class="play-name-part">FB DIVE WEAK</span>
+            </span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">99</span>
+            <span class="row-pers">23</span>
+            <span class="row-type">R</span>
+            <span class="row-content">
+              <span class="formation-part">GOAL LINE TWINS OVER CLOSE</span>
+              <span class="play-name-part">HB TOSS</span>
+            </span>
+            <span class="flags"><span class="badge-flag">F</span></span>
+          </div>
+          <div class="sub-ribbon ribbon-dropback">PASS · 21P</div>
+          <div class="play-row">
+            <span class="row-num">104</span>
+            <span class="row-pers">21</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">STRONG I TWINS OVER</span>
+              <span class="play-name-part">PA POWER O</span>
+            </span>
+            <span class="flags"><span class="badge-flag">C</span></span>
+          </div>
+        </section>
+
+        <!-- 3rd & 11+ -->
+        <section class="box">
+          <div class="box-header hdr-yellow">3RD & 11+</div>
+          <div class="sub-ribbon ribbon-dropback">PASS · 10P / 11P</div>
+          <div class="play-row">
+            <span class="row-num">111</span>
+            <span class="row-pers">10</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN SPREAD</span>
+              <span class="play-name-part">CROSS DBL POST</span>
+            </span>
+            <span class="flags"><span class="badge-flag">F</span></span>
+          </div>
+          <div class="play-row">
+            <span class="row-num">112</span>
+            <span class="row-pers">10</span>
+            <span class="row-type">P</span>
+            <span class="row-content">
+              <span class="formation-part">GUN 5WR</span>
+              <span class="play-name-part">CROSS Z DIG</span>
+            </span>
+            <span class="flags"><span class="badge-flag badge-black">BB</span></span>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
