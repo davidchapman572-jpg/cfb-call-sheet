@@ -1,71 +1,85 @@
-import { plays } from './plays.js';
+import { plays } from "./plays.js";
 
-const playContainer = document.getElementById('playContainer');
-const formationFilter = document.getElementById('formationFilter');
-const typeFilter = document.getElementById('typeFilter');
-const searchBar = document.getElementById('searchBar');
+const container = document.getElementById("playContainer");
+const formationFilter = document.getElementById("formationFilter");
+const typeFilter = document.getElementById("typeFilter");
+const searchBar = document.getElementById("searchBar");
 
-// Populate Formation Dropdown
-const uniqueFormations = [...new Set(plays.map(p => p.formation))].sort();
-uniqueFormations.forEach(formation => {
-  const option = document.createElement('option');
-  option.value = formation;
-  option.textContent = formation;
-  formationFilter.appendChild(option);
-});
-
-// Render Play Cards
-function renderPlays(playList) {
-  playContainer.innerHTML = '';
-  
-  if (playList.length === 0) {
-    playContainer.innerHTML = '<p style="color: #94a3b8;">No plays found matching your criteria.</p>';
-    return;
-  }
-
-  playList.forEach(play => {
-    const card = document.createElement('div');
-    card.className = 'card';
-
-    const tagsHtml = (play.tags || [])
-      .map(tag => `<span class="tag">#${tag}</span>`)
-      .join('');
-
-    card.innerHTML = `
-      <h3>${play.name}</h3>
-      <span class="badge badge-${play.type.toLowerCase()}">${play.type}</span>
-      <p style="color: #c4b5fd; font-size: 0.85rem; margin: 8px 0 4px;">${play.formation}</p>
-      <div class="tags">${tagsHtml}</div>
-    `;
-
-    playContainer.appendChild(card);
+// 1. Populate the formation dropdown automatically from your uploaded plays
+function initFormations() {
+  const formations = [...new Set(plays.map((p) => p.formation))].filter(Boolean);
+  formations.sort().forEach((form) => {
+    const opt = document.createElement("option");
+    opt.value = form;
+    opt.textContent = form;
+    formationFilter.appendChild(opt);
   });
 }
 
-// Filter Logic
+// 2. Render play cards into the grid
+function renderPlays(playList) {
+  container.innerHTML = "";
+
+  if (!playList || playList.length === 0) {
+    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 24px;">No matching plays found.</p>`;
+    return;
+  }
+
+  playList.forEach((play) => {
+    const card = document.createElement("div");
+    card.className = "play-card";
+
+    const badgeClass = play.personnel ? `pers-${play.personnel}` : "pers-11";
+    const typeLabel = (play.type || "PLAY").toUpperCase();
+    const tags = Array.isArray(play.tags) ? play.tags : [];
+
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="pers-badge ${badgeClass}">${play.personnel || "11"}p</span>
+        <span class="play-type">${typeLabel}</span>
+      </div>
+      <div class="play-title">${play.name}</div>
+      <div class="formation-name">${play.formation}</div>
+      <div class="tags-list">
+        ${tags.map((t) => `<span class="tag">#${t}</span>`).join(" ")}
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// 3. Filter plays in real time by dropdowns & search bar
 function filterPlays() {
   const selectedFormation = formationFilter.value;
-  const selectedType = typeFilter.value;
-  const searchTerm = searchBar.value.toLowerCase().trim();
+  const selectedType = typeFilter.value.toLowerCase();
+  const searchTerm = searchBar.value.trim().toLowerCase();
 
-  const filtered = plays.filter(play => {
-    const matchesFormation = selectedFormation === 'all' || play.formation === selectedFormation;
-    const matchesType = selectedType === 'all' || play.type.toLowerCase() === selectedType;
-    const matchesSearch = 
-      play.name.toLowerCase().includes(searchTerm) ||
-      play.formation.toLowerCase().includes(searchTerm) ||
-      (play.tags && play.tags.some(tag => tag.toLowerCase().includes(searchTerm)));
+  const filtered = plays.filter((play) => {
+    const matchFormation = selectedFormation === "all" || play.formation === selectedFormation;
+    const matchType = selectedType === "all" || (play.type && play.type.toLowerCase() === selectedType);
+    
+    const playName = (play.name || "").toLowerCase();
+    const formation = (play.formation || "").toLowerCase();
+    const tags = Array.isArray(play.tags) ? play.tags : [];
 
-    return matchesFormation && matchesType && matchesSearch;
+    const matchSearch =
+      searchTerm === "" ||
+      playName.includes(searchTerm) ||
+      formation.includes(searchTerm) ||
+      tags.some((t) => t.toLowerCase().includes(searchTerm));
+
+    return matchFormation && matchType && matchSearch;
   });
 
   renderPlays(filtered);
 }
 
-// Event Listeners
-formationFilter.addEventListener('change', filterPlays);
-typeFilter.addEventListener('change', filterPlays);
-searchBar.addEventListener('input', filterPlays);
+// 4. Attach event listeners
+formationFilter.addEventListener("change", filterPlays);
+typeFilter.addEventListener("change", filterPlays);
+searchBar.addEventListener("input", filterPlays);
 
-// Initial Render
+// 5. Initial boot
+initFormations();
 renderPlays(plays);
